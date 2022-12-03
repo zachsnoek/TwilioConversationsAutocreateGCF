@@ -14,53 +14,33 @@ namespace TwilioConversationsAutocreateGCF
             var request = context.Request;
             var response = context.Response;
 
-            if (request.Method != "POST")
+            if (!HttpMethods.IsPost(request.Method))
             {
                 response.StatusCode = StatusCodes.Status405MethodNotAllowed;
-                await response.WriteAsync(string.Empty);
                 return;
             }
 
-            if (request.Form.TryGetValue("EventType", out var eventType))
-            {
-                if (eventType != "onConversationAdded")
-                {
-                    await BadRequest(response, "Expected onConversationAdded webhook");
-                    return;
-                }
-            }
-            else
-            {
-                await BadRequest(response, "Expected event type");
+            var form = await request.ReadFormAsync();
+
+            var eventType = form["EventType"];
+            if (eventType != "onConversationAdded")
                 return;
-            }
 
-            if (request.Form.TryGetValue("ConversationSid", out var conversationSid))
-            {
-                var accountSid = Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
-                var authToken = Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
+            var accountSid = Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
+            var authToken = Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
+            var conversationSid = form["ConversationSid"];
 
-                TwilioClient.Init(accountSid, authToken);
+            TwilioClient.Init(accountSid, authToken);
 
-                ParticipantResource.Create(
-                    conversationSid,
-                    messagingBindingAddress: "<Your phone number>",
-                    messagingBindingProxyAddress: "<Your Twilio number>"
-                );
-            }
-            else
-            {
-                await BadRequest(response, "Expected conversation SID");
-                return;
-            }
+            await ParticipantResource.CreateAsync(
+                pathConversationSid: conversationSid,
+                identity: "<Your identity>"
+            );
 
-            await response.WriteAsync("OK");
-        }
-
-        static async Task BadRequest(HttpResponse response, string message)
-        {
-            response.StatusCode = StatusCodes.Status400BadRequest;
-            await response.WriteAsync(message);
+            await MessageResource.CreateAsync(
+                pathConversationSid: conversationSid,
+                body: "You are being connected. Please give us a moment to review your message."
+            );
         }
     }
 }

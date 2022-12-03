@@ -8,10 +8,8 @@ If you found my post helpful, please consider supporting my work financially:
 
 ## Quickstart
 
-1. Add your values for `messagingBindingAddress` and `messagingBindingProxyAddress` in `Function.cs`
+1. Set your `TWILIO_ACCOUNT_SID` and `TWILIO_AUTH_TOKEN` environment variables
 
-2. Run `dotnet run` with your account SID and auth token:
+2. Add your `identity` in `Function.cs`
 
-```bash
-$ TWILIO_ACCOUNT_SID=<Your account SID> TWILIO_AUTH_TOKEN=<Your auth token> dotnet run
-```
+3. Run `dotnet run`
