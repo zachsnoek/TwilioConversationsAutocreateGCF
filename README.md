@@ -1,10 +1,10 @@
 # TwilioConversationsAutocreateGCF
 
-<!-- This is the project code for my [post on Twilio's blog]().
+This is the project code for my [post on Twilio's blog](https://www.twilio.com/blog/add-users-messages-to-new-twilio-conversation-with-google-cloud-functions-and-csharp).
 
 If you found my post helpful, please consider supporting my work financially:
 
-<a href="https://www.buymeacoffee.com/zachsnoek" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a> -->
+<a href="https://www.buymeacoffee.com/zachsnoek" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
 ## Quickstart
 
